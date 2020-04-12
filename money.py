@@ -9,11 +9,22 @@ class Money:
             return False
         return self._amount == other._amount
 
+    @classmethod
+    def dollar(cls, amount: int) -> 'Money':
+        return Dollar(amount)
+
+    @classmethod
+    def franc(cls, amount: int) -> 'Money':
+        return Franc(amount)
+
+    def times(self, multiplier: int) -> 'Money':
+        raise NotImplementedError()
+
 class Dollar(Money):
-    def times(self, multiplier: int) -> 'Dollar':
+    def times(self, multiplier: int) -> 'Money':
         return Dollar(self._amount * multiplier)
 
 class Franc(Money):
-    def times(self, multiplier: int) -> 'Franc':
+    def times(self, multiplier: int) -> 'Money':
         return Franc(self._amount * multiplier)
 
