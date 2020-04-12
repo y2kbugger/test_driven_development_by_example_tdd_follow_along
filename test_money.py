@@ -30,3 +30,7 @@ def test_equality():
 def test_currency():
     assert "USD" == Money.dollar(5).currency()
     assert "CHF" == Money.franc(5).currency()
+
+def test_differant_class_equality():
+    assert Money(5, 'USD') == Money.dollar(5)
+    assert Money(5, 'USD') != Money.franc(5)
