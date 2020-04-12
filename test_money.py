@@ -4,8 +4,13 @@ def test_that_tests_run():
     pass
 
 def testMultiplication():
+    five: Dollar
+    product: Dollar
+
     five = Dollar(5)
-    five.times(2)
-    assert 10 == five.amount
-    five.times(3)
-    assert 30 == five.amount
+
+    product = five.times(2)
+    assert 10 == product.amount
+
+    product = five.times(3)
+    assert 15 == product.amount
