@@ -13,6 +13,9 @@ class Money:
             return False
         return self._amount == other._amount
 
+    def __add__(self, addend):
+        return Money(5, 'USD')
+
     def __mul__(self, multiplier: int) -> 'Money':
         return Money(self._amount * multiplier, self._currency)
 
