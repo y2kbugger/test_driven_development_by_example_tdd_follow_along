@@ -1,16 +1,6 @@
+$1 + $4 = $5
 $5 + 10 CHF = $10 if rate is 2:1
-X $5 * 2 = $10
-X Make "amount" private
-X Dollar side-effects?
 Money rounding?
-X Equals()
 hashcode()
 equal null
 equal object
-X 5 CHF * 2 = 10 CHF
-X dollar frank duplication
-X common times
-X common equals
-X compare dollars and francs
-X Currency??
-X Delete test_franc_multiplication?

@@ -13,6 +13,9 @@ class Money:
             return False
         return self._amount == other._amount
 
+    def __mul__(self, multiplier: int) -> 'Money':
+        return Money(self._amount * multiplier, self._currency)
+
     @classmethod
     def dollar(cls, amount: int) -> 'Money':
         return Money(amount, 'USD')
@@ -24,5 +27,3 @@ class Money:
     def currency(self) -> str:
         return self._currency
 
-    def times(self, multiplier: int) -> 'Money':
-        return Money(self._amount * multiplier, self._currency)
