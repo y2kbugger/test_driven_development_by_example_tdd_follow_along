@@ -6,6 +6,9 @@ verify_ssl = true
 [dev-packages]
 pytest = "*"
 pytest-xdist = "*"
+pytest-mypy = "*"
+pytest-flake8 = "*"
+pynvim = "*"
 
 [packages]
 
