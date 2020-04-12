@@ -15,19 +15,14 @@ class Money:
 
     @classmethod
     def dollar(cls, amount: int) -> 'Money':
-        return Dollar(amount, 'USD')
+        return Money(amount, 'USD')
 
     @classmethod
     def franc(cls, amount: int) -> 'Money':
-        return Franc(amount, 'CHF')
+        return Money(amount, 'CHF')
 
     def currency(self) -> str:
         return self._currency
 
     def times(self, multiplier: int) -> 'Money':
         return Money(self._amount * multiplier, self._currency)
-
-class Dollar(Money):
-    _currency: str = 'USD'
-class Franc(Money):
-    _currency: str = 'CHF'
