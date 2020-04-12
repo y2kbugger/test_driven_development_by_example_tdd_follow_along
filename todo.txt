@@ -3,3 +3,7 @@ X $5 * 2 = $10
 Make "amount" private
 X Dollar side-effects?
 Money rounding?
+X Equals()
+hashcode()
+equal null
+equal object
