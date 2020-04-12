@@ -26,3 +26,7 @@ def test_equality():
     assert Money.franc(5) != Money.franc(6)
 
     assert Money.dollar(5) != Money.franc(5)
+
+def test_currency():
+    assert "USD" == Money.dollar(5).currency()
+    assert "CHF" == Money.franc(5).currency()

@@ -12,4 +12,5 @@ X dollar frank duplication
 common times
 X common equals
 X compare dollars and francs
-Currency??
+XCurrency??
+Delete test_franc_multiplication?
