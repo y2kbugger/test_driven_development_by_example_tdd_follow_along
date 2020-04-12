@@ -1,12 +1,12 @@
 class Dollar():
     amount: int
     def __init__(self, amount: int) -> None:
-        self.amount = amount
+        self._amount = amount
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, Dollar):
             return NotImplemented
-        return self.amount == other.amount
+        return self._amount == other._amount
     def times(self, multiplier: int) -> 'Dollar':
-        return Dollar(self.amount * multiplier)
+        return Dollar(self._amount * multiplier)
 
 

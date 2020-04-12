@@ -5,15 +5,12 @@ def test_that_tests_run():
 
 def test_multiplication():
     five: Dollar
-    product: Dollar
 
     five = Dollar(5)
 
-    product = five.times(2)
-    assert 10 == product.amount
+    assert Dollar(10) == five.times(2)
 
-    product = five.times(3)
-    assert 15 == product.amount
+    assert Dollar(15) == five.times(3)
 
 def test_equality():
     assert Dollar(5) == Dollar(5)
