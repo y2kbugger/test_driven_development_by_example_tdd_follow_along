@@ -8,6 +8,8 @@ hashcode()
 equal null
 equal object
 X 5 CHF * 2 = 10 CHF
-dollar frank duplication
+X dollar frank duplication
 common times
-common equals
+X common equals
+compare dollars and francs
+Currency??
