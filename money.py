@@ -19,12 +19,12 @@ class Money:
     def __mul__(self, multiplier: int) -> 'Money':
         return Money(self._amount * multiplier, self._currency)
 
-    @classmethod
-    def dollar(cls, amount: int) -> 'Money':
+    @staticmethod
+    def dollar(amount: int) -> 'Money':
         return Money(amount, 'USD')
 
-    @classmethod
-    def franc(cls, amount: int) -> 'Money':
+    @staticmethod
+    def franc(amount: int) -> 'Money':
         return Money(amount, 'CHF')
 
     def currency(self) -> str:
