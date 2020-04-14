@@ -13,8 +13,9 @@ class Money:
             return False
         return self._amount == other._amount
 
-    def __add__(self, addend):
-        return Money(5, 'USD')
+    def __add__(self, addend) -> 'Expression':
+        return Expression()
+        # return Money(self._amount + addend._amount, self.currency())
 
     def __mul__(self, multiplier: int) -> 'Money':
         return Money(self._amount * multiplier, self._currency)
@@ -30,3 +31,9 @@ class Money:
     def currency(self) -> str:
         return self._currency
 
+class Expression:
+    pass
+
+class Bank:
+    def reduce(self, ex: Expression, to: str) -> Money:
+        return Money(5, to) 

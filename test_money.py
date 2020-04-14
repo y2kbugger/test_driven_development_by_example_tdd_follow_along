@@ -1,4 +1,4 @@
-from money import Money
+from money import Money, Bank
 
 def test_that_tests_run():
     pass
@@ -23,4 +23,7 @@ def test_currency():
     assert "CHF" == Money.franc(5).currency()
 
 def test_simple_addition():
-    assert (Money.dollar(1) + Money.dollar(4)) == Money.dollar(5)
+    sum: Expression = Money.dollar(4) + Money.dollar(1)
+    bank = Bank()
+    reduced: Money = bank.reduce(sum, "USD")
+    assert Money.dollar(5) == reduced
