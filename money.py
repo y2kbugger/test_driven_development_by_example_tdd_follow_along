@@ -49,5 +49,19 @@ class Sum(Expression):
         return Money(self.augend._amount + self.addend._amount, to)
 
 class Bank:
+    def __init__(self):
+        self.rates: Dict[Tuple[str,str], float]= {}
+    def convert(self, money: Money, to):
+        rate = self.rates[(money.currency(), to)]
+        return Money(money._amount * rate, 'USD')
+
     def reduce(self, ex: Expression, to: str) -> Money:
-        return ex.reduce(to)
+        reduced = ex.reduce(to)
+        return self.convert(reduced, to)
+
+    def add_rate(self, from_c: str, to_c: str, rate: int):
+        assert from_c != to_c
+        self.rates[(from_c, to_c)] = rate
+        self.rates[(to_c, from_c)] = 1 / rate
+        self.rates[(from_c, from_c)] = 1
+        self.rates[(to_c, to_c)] = 1
