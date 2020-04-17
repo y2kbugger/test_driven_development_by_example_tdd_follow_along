@@ -27,3 +27,19 @@ def test_simple_addition():
     bank = Bank()
     reduced: Money = bank.reduce(sum, "USD")
     assert Money.dollar(5) == reduced
+
+def test_plus_returns_sum():
+    sum: Sum = Money.dollar(4) + Money.dollar(1)
+    assert sum.augend == Money.dollar(4)
+    assert sum.addend == Money.dollar(1)
+
+def test_reduce_sum():
+    sum: Expression = Money.dollar(9) + Money.dollar(2)
+    bank = Bank()
+    reduced: Money = bank.reduce(sum, "USD")
+    assert Money.dollar(11) == reduced
+
+def test_reduce_money():
+    bank = Bank()
+    reduced: Money = bank.reduce(Money.dollar(2), "USD")
+    assert Money.dollar(2) == reduced
