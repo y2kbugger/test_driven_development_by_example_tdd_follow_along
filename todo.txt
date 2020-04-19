@@ -1,2 +1,4 @@
-$5 + 10 CHF = $10 if rate is 2:1
-return money from $5+$5
+X $5 + 10 CHF = $10 if rate is 2:1
+X return money from $5+$5
+X Sum.plus
+X Expression.time

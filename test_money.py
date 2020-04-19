@@ -71,3 +71,15 @@ def test_multiply_expressions(bank):
     reduced: Money = bank.reduce(sum, "USD")
     assert Money.dollar(28) == reduced
 
+def test_compound_expressions(bank):
+    sum: Expression = Money.franc(2) + Money.dollar(10)
+    sum2: Expression = Money.dollar(5) + Money.dollar(10)
+    assert Money.dollar(2*2+10) == bank.reduce(sum, "USD")
+    assert Money.dollar(5+10) == bank.reduce(sum2, "USD")
+    assert Money.dollar((5+10)*2) == bank.reduce(sum2 + sum2, "USD")
+    assert Money.dollar(2*2+10+(5+10)*2) == bank.reduce(sum + sum2 + sum2, "USD")
+
+    assert Money.dollar(2*2+10+(5+10)*2) == bank.reduce(sum + sum2 *2, "USD")
+    assert Money.dollar((2*2+10+(5+10)*2)*2) == bank.reduce((sum + sum2 * 2) * 2, "USD")
+
+    assert Money.dollar((2*2+10+(5+10)*2)*2+2) == bank.reduce((sum + sum2 * 2) * 2 + Money.franc(1), "USD")
