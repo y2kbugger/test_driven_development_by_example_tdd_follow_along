@@ -35,11 +35,6 @@ def test_simple_addition(bank):
     reduced: Money = bank.reduce(sum, "USD")
     assert Money.dollar(5) == reduced
 
-def test_plus_returns_sum():
-    sum: Sum = Money.dollar(4) + Money.dollar(1)
-    assert sum.augend == Money.dollar(4)
-    assert sum.addend == Money.dollar(1)
-
 def test_reduce_sum(bank):
     sum: Expression = Money.dollar(9) + Money.dollar(2)
     reduced: Money = bank.reduce(sum, "USD")
@@ -52,5 +47,21 @@ def test_reduce_money(bank):
 def test_reduce_money_with_conversion(bank):
     reduced: Money = bank.reduce(Money.franc(2), "USD")
     assert Money.dollar(4) == reduced
+
+def test_reduction_doesnt_mutate(bank):
+    reduced: Money = bank.reduce(Money.franc(2), "USD")
+    assert Money.dollar(4) == reduced
     reduced: Money = bank.reduce(Money.franc(5), "USD")
     assert Money.dollar(10) == reduced
+
+def test_add_two_currencies(bank):
+    sum: Expression = Money.franc(2) + Money.dollar(10)
+    reduced: Money = bank.reduce(sum, "USD")
+    assert Money.dollar(14) == reduced
+
+def test_add_two_expressions(bank):
+    sum: Expression = Money.franc(2) + Money.dollar(10)
+    sum += Money.dollar(3)
+    reduced: Money = bank.reduce(sum, "USD")
+    assert Money.dollar(17) == reduced
+

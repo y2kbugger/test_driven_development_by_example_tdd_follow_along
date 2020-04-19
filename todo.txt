@@ -1,5 +1,2 @@
-$1 + $4 = $5
 $5 + 10 CHF = $10 if rate is 2:1
 return money from $5+$5
-reduce money with conversion
-reduce(Bank, string)

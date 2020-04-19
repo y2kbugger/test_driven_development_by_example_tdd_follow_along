@@ -1,7 +1,10 @@
 from typing import cast
 
 class Expression:
-    def reduce(self, to: str):
+    def __add__(self, addend: 'Expression') -> 'Expression':
+        return Sum(self, addend)
+
+    def reduce(self, bank: 'Bank', to: str):
         raise NotImplementedError()
 
 class Money(Expression):
@@ -21,9 +24,6 @@ class Money(Expression):
             return False
         return self._amount == other._amount
 
-    def __add__(self, addend) -> 'Expression':
-        return Sum(self, addend)
-
     def __mul__(self, multiplier: int) -> 'Money':
         return Money(self._amount * multiplier, self._currency)
 
@@ -38,26 +38,33 @@ class Money(Expression):
     def currency(self) -> str:
         return self._currency
 
-    def reduce(self, to: str) -> 'Money':
+    def reduce(self, bank: 'Bank', to: str) -> 'Money':
+        bank.reduce(self, to)
         return self
 
 class Sum(Expression):
-    def __init__(self, augend: Money, addend: Money):
+    def __init__(self, augend: Expression, addend: Expression):
         self.addend = addend
         self.augend = augend
-    def reduce(self, to: str) -> Money:
-        return Money(self.augend._amount + self.addend._amount, to)
+    def reduce(self, bank: 'Bank', to: str) -> Money:
+        addend = bank.reduce(self.addend, to)
+        augend = bank.reduce(self.augend, to)
+        return Money(augend._amount + addend._amount, to)
 
 class Bank:
     def __init__(self):
         self.rates: Dict[Tuple[str,str], float]= {}
-    def convert(self, money: Money, to):
-        rate = self.rates[(money.currency(), to)]
-        return Money(money._amount * rate, 'USD')
 
-    def reduce(self, ex: Expression, to: str) -> Money:
-        reduced = ex.reduce(to)
-        return self.convert(reduced, to)
+    def _convert(self, money: Money, to):
+        rate = self.rates[(money.currency(), to)]
+        print(to)
+        return Money(money._amount * rate, to)
+
+    def reduce(self, ex: Expression, to: str) -> 'Money':
+        if isinstance(ex, Money):
+            return self._convert(ex, to)
+        else:
+            return ex.reduce(self, to)
 
     def add_rate(self, from_c: str, to_c: str, rate: int):
         assert from_c != to_c
