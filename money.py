@@ -4,6 +4,9 @@ class Expression:
     def __add__(self, addend: 'Expression') -> 'Expression':
         return Sum(self, addend)
 
+    def __mul__(self, multiplier: int) -> 'Expression':
+        return Multiply(self, multiplier)
+
     def reduce(self, bank: 'Bank', to: str):
         raise NotImplementedError()
 
@@ -25,7 +28,7 @@ class Money(Expression):
         return self._amount == other._amount
 
     def __mul__(self, multiplier: int) -> 'Money':
-        return Money(self._amount * multiplier, self._currency)
+        return Money(self._amount * multiplier, self.currency())
 
     @staticmethod
     def dollar(amount: int) -> 'Money':
@@ -46,10 +49,20 @@ class Sum(Expression):
     def __init__(self, augend: Expression, addend: Expression):
         self.addend = addend
         self.augend = augend
+
     def reduce(self, bank: 'Bank', to: str) -> Money:
         addend = bank.reduce(self.addend, to)
         augend = bank.reduce(self.augend, to)
         return Money(augend._amount + addend._amount, to)
+
+class Multiply(Expression):
+    def __init__(self, base: Expression, multiplier: int):
+        self.base = base
+        self.multipler = multiplier
+
+    def reduce(self, bank: 'Bank', to: str) -> Money:
+        base = bank.reduce(self.base, to)
+        return base * self.multipler
 
 class Bank:
     def __init__(self):

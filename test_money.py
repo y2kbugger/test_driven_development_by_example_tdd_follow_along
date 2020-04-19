@@ -65,3 +65,9 @@ def test_add_two_expressions(bank):
     reduced: Money = bank.reduce(sum, "USD")
     assert Money.dollar(17) == reduced
 
+def test_multiply_expressions(bank):
+    sum: Expression = Money.franc(2) + Money.dollar(10)
+    sum *= 2
+    reduced: Money = bank.reduce(sum, "USD")
+    assert Money.dollar(28) == reduced
+
