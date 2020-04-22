@@ -4,17 +4,23 @@ class TestCase:
     def setup(self):
         pass
     def run(self):
+        testresult = TestResult()
+        testresult.test_starting()
         self.setup()
         method = self.__getattribute__(self.name)
         method()
         self.teardown()
-        return TestResult()
+        return testresult
     def teardown(self):
         pass
 
 class TestResult:
+    def __init__(self):
+        self.run_count = 0
+    def test_starting(self):
+        self.run_count += 1
     def summary(self):
-        return "1 run, 0 failed"
+        return f"{self.run_count} run, 0 failed"
 
 class WasRun(TestCase):
     def setup(self):
