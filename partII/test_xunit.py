@@ -11,7 +11,12 @@ class TestCaseTest(TestCase):
         self.test = WasRun("test_method")
         result = self.test.run()
         assert "1 run, 0 failed" == result.summary()
+    def test_result_failed(self):
+        self.test = WasRun("test_failed_method")
+        result = self.test.run()
+        assert "1 run, 1 failed" == result.summary()
 
 
 TestCaseTest('test_template_method').run()
 TestCaseTest('test_result').run()
+TestCaseTest('test_result_failed').run()
