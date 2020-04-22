@@ -1,7 +1,10 @@
 class TestCase:
     def __init__(self, name):
         self.name = name
+    def setup(self):
+        self.was_setup  = True
     def run(self):
+        self.setup()
         method = self.__getattribute__(self.name)
         method()
 
