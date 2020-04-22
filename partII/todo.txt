@@ -1,5 +1,5 @@
 X Invoke test method
-Invoke set_up first
+X Invoke set_up first
 Invoke tear_down afterward
 Invoke tear_down even if the test method fails
 Run multiple tests
