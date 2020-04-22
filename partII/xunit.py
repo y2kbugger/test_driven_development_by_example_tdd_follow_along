@@ -10,8 +10,7 @@ class TestCase:
 
 class WasRun(TestCase):
     def setup(self):
-        self.was_run = False
-        self.was_setup = True
+        self.log = ['setup']
 
     def test_method(self):
-        self.was_run = True
+        self.log.append('running')
