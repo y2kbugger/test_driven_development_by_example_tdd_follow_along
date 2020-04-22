@@ -8,8 +8,13 @@ class TestCase:
         method = self.__getattribute__(self.name)
         method()
         self.teardown()
+        return TestResult()
     def teardown(self):
         pass
+
+class TestResult:
+    def summary(self):
+        return "1 run, 0 failed"
 
 class WasRun(TestCase):
     def setup(self):
