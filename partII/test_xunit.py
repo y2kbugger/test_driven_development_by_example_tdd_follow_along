@@ -4,7 +4,6 @@ class TestCaseTest(TestCase):
     def setup(self):
         self.test = WasRun("test_method")
     def test_running(self):
-        assert not self.test.was_run
         self.test.run()
         assert self.test.was_run
     def test_setup(self):

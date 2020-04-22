@@ -9,11 +9,6 @@ class TestCase:
         method()
 
 class WasRun(TestCase):
-    def __init__(self, name):
-        self.was_run = False
-        self.was_setup = False
-        super().__init__(name)
-
     def setup(self):
         self.was_run = False
         self.was_setup = True
