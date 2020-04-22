@@ -6,5 +6,6 @@ class TestCaseTest(TestCase):
         self.test.run()
         assert self.test.log[0] == 'setup'
         assert self.test.log[1] == 'running'
+        assert self.test.log[2] == 'teardown'
 
 TestCaseTest('test_template_method').run()

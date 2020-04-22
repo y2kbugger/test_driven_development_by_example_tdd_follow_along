@@ -1,7 +1,7 @@
 X Invoke test method
 X Invoke set_up first
-Invoke tear_down afterward
+X Invoke tear_down afterward
 Invoke tear_down even if the test method fails
 Run multiple tests
 Report collected results
-Preserve order of asserts (Log string in WasRun)
+X Preserve order of asserts (Log string in WasRun)
