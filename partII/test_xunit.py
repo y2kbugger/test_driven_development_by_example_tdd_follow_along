@@ -1,4 +1,4 @@
-from xunit import TestCase, TestCase, TestResult
+from xunit import TestCase, TestCase, TestResult, TestSuite
 
 class WasRun(TestCase):
     def setup(self):
@@ -17,28 +17,38 @@ class WasRunBadSetup(WasRun):
 
 class TestCaseTest(TestCase):
     def test_template_method(self):
-        test = WasRun("test_method")
+        test = WasRun('test_method')
         test.run()
         assert test.log[0] == 'setup'
         assert test.log[1] == 'running'
         assert test.log[2] == 'teardown'
     def test_result(self):
-        test = WasRun("test_method")
+        test = WasRun('test_method')
         result = test.run()
-        assert "1 run, 0 failed" == result.summary()
+        assert '1 run, 0 failed' == result.summary()
     def test_failed_result_formatting(self):
         result = TestResult()
         result.test_starting()
-        result.test_failed()
-        assert "1 run, 1 failed" == result.summary()
+        result.test_failed("fake exception and trackback")
+        assert '1 run, 1 failed' == result.summary()
     def test_result_failed(self):
-        test = WasRun("test_failed_method")
+        test = WasRun('test_failed_method')
         result = test.run()
         assert "1 run, 1 failed" == result.summary()
     def test_result_failed_during_setup(self):
-        test = WasRunBadSetup("Doesnt_matter")
+        test = WasRunBadSetup('Doesnt_matter')
         result = test.run()
         assert "1 run, 1 failed" == result.summary()
+    def test_summary_includes_exceptions(self):
+        test = WasRunBadSetup('Doesnt_matter')
+        result = test.run()
+        test = WasRun('test_failed_method')
+        result = test.run()
+        assert any("Fake Error" in e for e in result.exceptions())
+    def test_suite(self):
+        suite = TestSuite()
+        suite.add(WasRun('test_method'))
+        suite.add(WasRun('test_failed_method'))
 
 tests = [
     'test_template_method',
@@ -46,8 +56,14 @@ tests = [
     'test_failed_result_formatting',
     'test_result_failed',
     'test_result_failed_during_setup',
+    'test_summary_includes_exceptions',
+    # 'test_suite',
     ]
 
 for t in tests:
     r = TestCaseTest(t).run()
+    print(t)
     print(r.summary())
+    for e in r.exceptions():
+        print(e)
+    print()
