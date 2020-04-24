@@ -16,47 +16,40 @@ class WasRunBadSetup(WasRun):
         raise RuntimeError("Fake SetUpError")
 
 class TestCaseTest(TestCase):
+    def setup(self):
+        self.result = TestResult()
     def test_template_method(self):
         test = WasRun('test_method')
-        result = TestResult()
-        test.run(result)
+        test.run(self.result)
         assert test.log[0] == 'setup'
         assert test.log[1] == 'running'
         assert test.log[2] == 'teardown'
     def test_result(self):
         test = WasRun('test_method')
-        result = TestResult()
-        test.run(result)
-        assert '1 run, 0 failed' == result.summary()
+        test.run(self.result)
+        assert '1 run, 0 failed' == self.result.summary()
     def test_failed_result_formatting(self):
-        result = TestResult()
-        result.test_starting()
-        result.test_failed("fake exception and trackback")
-        assert '1 run, 1 failed' == result.summary()
+        self.result.test_starting()
+        self.result.test_failed("fake exception and trackback")
+        assert '1 run, 1 failed' == self.result.summary()
     def test_result_failed(self):
         test = WasRun('test_failed_method')
-        result = TestResult()
-        test.run(result)
-        assert "1 run, 1 failed" == result.summary()
+        test.run(self.result)
+        assert "1 run, 1 failed" == self.result.summary()
     def test_result_failed_during_setup(self):
         test = WasRunBadSetup('Doesnt_matter')
-        result = TestResult()
-        test.run(result)
-        assert "1 run, 1 failed" == result.summary()
+        test.run(self.result)
+        assert "1 run, 1 failed" == self.result.summary()
     def test_summary_includes_exceptions(self):
-        test = WasRunBadSetup('Doesnt_matter')
-        result = test.run()
         test = WasRun('test_failed_method')
-        result = TestResult()
-        test.run(result)
-        assert any("Fake Error" in e for e in result.exceptions())
+        test.run(self.result)
+        assert any("Fake Error" in e for e in self.result.exceptions())
     def test_suite(self):
         suite = TestSuite()
         suite.add(WasRun('test_method'))
         suite.add(WasRun('test_failed_method'))
-        result = TestResult()
-        suite.run(result)
-        assert "2 run, 1 failed" == result.summary()
+        suite.run(self.result)
+        assert "2 run, 1 failed" == self.result.summary()
 
 tests = [
     'test_template_method',
@@ -69,11 +62,11 @@ tests = [
     ]
 
 ts = TestSuite()
-result = TestResult()
+r = TestResult()
 for t in tests:
     ts.add(TestCaseTest(t))
-ts.run(result)
-print(result.summary())
-for e in result.exceptions():
+ts.run(r)
+print(r.summary())
+for e in r.exceptions():
     print(e)
     print()
