@@ -57,7 +57,7 @@ tests = [
     'test_result_failed',
     'test_result_failed_during_setup',
     'test_summary_includes_exceptions',
-    # 'test_suite',
+    'test_suite',
     ]
 
 for t in tests:

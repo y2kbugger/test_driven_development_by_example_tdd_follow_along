@@ -40,6 +40,6 @@ class TestResult:
     def exceptions(self):
         return self._exceptions
 
-class TestSuite(TestCase):
+class TestSuite():
     def add(self, testcase):
         pass
