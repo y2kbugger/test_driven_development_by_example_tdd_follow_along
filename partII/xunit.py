@@ -6,8 +6,11 @@ class TestCase:
     def run(self):
         testresult = TestResult()
         testresult.test_starting()
-        self.setup()
-
+        try:
+            self.setup()
+        except:
+            testresult.test_failed()
+            return testresult
         try:
             method = self.__getattribute__(self.name)
             method()

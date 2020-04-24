@@ -12,6 +12,7 @@ class WasRun(TestCase):
 
 class WasRunBadSetup(WasRun):
     def setup(self):
+        super().__init__()
         raise RuntimeError("Fake SetUpError")
 
 class TestCaseTest(TestCase):
@@ -33,11 +34,11 @@ class TestCaseTest(TestCase):
     def test_result_failed(self):
         test = WasRun("test_failed_method")
         result = test.run()
-        assert "1 run, 2 failed" == result.summary()
+        assert "1 run, 1 failed" == result.summary()
     def test_result_failed_during_setup(self):
         test = WasRunBadSetup("Doesnt_matter")
         result = test.run()
-        assert "1 run, 2 failed" == result.summary()
+        assert "1 run, 1 failed" == result.summary()
 
 tests = [
     'test_template_method',
