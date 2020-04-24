@@ -7,9 +7,9 @@ class TestCase:
         testresult = TestResult()
         testresult.test_starting()
         self.setup()
-        method = self.__getattribute__(self.name)
 
         try:
+            method = self.__getattribute__(self.name)
             method()
         except:
             testresult.test_failed()
@@ -28,15 +28,4 @@ class TestResult:
     def test_failed(self):
         self.failed_count += 1
     def summary(self):
-        return f"{self.run_count} run, 0 failed"
-
-class WasRun(TestCase):
-    def setup(self):
-        self.log = ['setup']
-    def test_method(self):
-        self.log.append('running')
-    def test_failed_method(self):
-        raise RuntimeError("Fake Error")
-    def teardown(self):
-        self.log.append('teardown')
-
+        return f"{self.run_count} run, {self.failed_count} failed"
