@@ -5,8 +5,9 @@ class TestCase:
         self.name = name
     def setup(self):
         pass
-    def run(self):
-        testresult = TestResult()
+    def run(self, testresult=None):
+        if testresult is None:
+            testresult = TestResult()
         testresult.test_starting()
         try:
             self.setup()
@@ -20,7 +21,7 @@ class TestCase:
             testresult.test_failed(e)
 
         self.teardown()
-        return testresult
+
     def teardown(self):
         pass
 
@@ -41,5 +42,10 @@ class TestResult:
         return self._exceptions
 
 class TestSuite():
+    def __init__(self):
+        self._testcases = []
     def add(self, testcase):
-        pass
+        self._testcases.append(testcase)
+    def run(self, result):
+        for tc in self._testcases:
+            tc.run(result)

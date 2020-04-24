@@ -18,13 +18,15 @@ class WasRunBadSetup(WasRun):
 class TestCaseTest(TestCase):
     def test_template_method(self):
         test = WasRun('test_method')
-        test.run()
+        result = TestResult()
+        test.run(result)
         assert test.log[0] == 'setup'
         assert test.log[1] == 'running'
         assert test.log[2] == 'teardown'
     def test_result(self):
         test = WasRun('test_method')
-        result = test.run()
+        result = TestResult()
+        test.run(result)
         assert '1 run, 0 failed' == result.summary()
     def test_failed_result_formatting(self):
         result = TestResult()
@@ -33,22 +35,28 @@ class TestCaseTest(TestCase):
         assert '1 run, 1 failed' == result.summary()
     def test_result_failed(self):
         test = WasRun('test_failed_method')
-        result = test.run()
+        result = TestResult()
+        test.run(result)
         assert "1 run, 1 failed" == result.summary()
     def test_result_failed_during_setup(self):
         test = WasRunBadSetup('Doesnt_matter')
-        result = test.run()
+        result = TestResult()
+        test.run(result)
         assert "1 run, 1 failed" == result.summary()
     def test_summary_includes_exceptions(self):
         test = WasRunBadSetup('Doesnt_matter')
         result = test.run()
         test = WasRun('test_failed_method')
-        result = test.run()
+        result = TestResult()
+        test.run(result)
         assert any("Fake Error" in e for e in result.exceptions())
     def test_suite(self):
         suite = TestSuite()
         suite.add(WasRun('test_method'))
         suite.add(WasRun('test_failed_method'))
+        result = TestResult()
+        suite.run(result)
+        assert "2 run, 1 failed" == result.summary()
 
 tests = [
     'test_template_method',
@@ -61,9 +69,10 @@ tests = [
     ]
 
 for t in tests:
-    r = TestCaseTest(t).run()
+    result = TestResult()
+    TestCaseTest(t).run(result)
     print(t)
-    print(r.summary())
-    for e in r.exceptions():
+    print(result.summary())
+    for e in result.exceptions():
         print(e)
     print()
