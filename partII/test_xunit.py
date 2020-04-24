@@ -68,11 +68,12 @@ tests = [
     'test_suite',
     ]
 
+ts = TestSuite()
+result = TestResult()
 for t in tests:
-    result = TestResult()
-    TestCaseTest(t).run(result)
-    print(t)
-    print(result.summary())
-    for e in result.exceptions():
-        print(e)
+    ts.add(TestCaseTest(t))
+ts.run(result)
+print(result.summary())
+for e in result.exceptions():
+    print(e)
     print()
